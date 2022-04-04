@@ -11,6 +11,10 @@ The result of the program's operation is an encrypted/decrypted file/s.
 
 ## 🔐**Tests**🔐
 **Carry out different tests:**
+![1](https://user-images.githubusercontent.com/86531927/161629938-9e8df471-7ffc-4bec-9229-6a821cc13bbe.png)
+![11](https://user-images.githubusercontent.com/86531927/161629943-55bbe4b3-b9f1-42a8-b8da-b78f49297571.png)
+![2](https://user-images.githubusercontent.com/86531927/161629950-89a403cb-ec2f-499f-8ee9-9eff6878048e.png)
+![22](https://user-images.githubusercontent.com/86531927/161629962-f453fe3d-df8c-4df6-a977-fe7a59cf5ae7.png)
 
 **All tests were completed!**
 ## Python Cryptography GUI
