@@ -291,7 +291,17 @@ if __name__ == '__main__':
                         print('[!] Nothing to encrypt!')
                     else:
                         key = str(values["-KEY-"])
-                        L.append(vigenereEncrypt(line.lower(), key.lower()).upper() + " ")
+                        ss = ''
+                        for i in key:
+                            i1 = i
+                            if alphabet.find(i.lower()) == -1:
+                                i1 = ''
+                            ss += i1
+                        key = ss
+                        if len(key):
+                            L.append(vigenereEncrypt(line.lower(), key.lower()).upper() + " ")
+                        else:
+                            print('[!] Bad key!')
 
             elif values["turn"]:
                 for line in Linn:
@@ -351,6 +361,7 @@ if __name__ == '__main__':
                             print(f'[!] Bad key! [2..{len(line)}]')
 
 
+
             elif values["vige"]:
                 for line in Linn:
                     for i in line:
@@ -366,9 +377,19 @@ if __name__ == '__main__':
                     if len(line) < 1:
                         print('[!] Nothing to encrypt!')
                     else:
-                        key = values["-KEY-"]
-                        L.append(vigenereDecrypt(line.upper(), key) + " ")
+                        key = str(values["-KEY-"])
+                        ss = ''
+                        for i in key:
+                            i1 = i
+                            if alphabet.find(i.lower()) == -1:
+                                i1 = ''
+                            ss += i1
+                        key = ss
 
+                        if len(key):
+                            L.append(vigenereDecrypt(line.lower(), key.lower()).upper() + " ")
+                        else:
+                            print('[!] Bad key!')
 
             elif values["turn"]:
                 for line in Linn:
