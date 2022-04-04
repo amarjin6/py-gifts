@@ -24,6 +24,12 @@ def railFenceEncrypt(plaintext: str, n: int) -> str:
 
 
 def railFenceDecrypt(text: str, key: int):
+    """
+    Work the same as railFenceEncrypt
+    :param text: Encryption text
+    :param key: Key to decrypt
+    :return: Decrypted text
+    """
     tmp = [0 for _ in range(key)]
     try:
         for i in range(len(text)):
@@ -45,10 +51,18 @@ def railFenceDecrypt(text: str, key: int):
 
 
 def turn_90(mask):
+    """
+    :param mask: plain iterator
+    :return: mask offset
+    """
     return list(zip(*mask[::-1]))
 
 
 def turningEncrypt(text: str):
+    """
+    :param text: plain text
+    :return: encrypted text
+    """
     alphabet = string.ascii_letters
     mask = [
         [True, False, False, False],
@@ -106,6 +120,10 @@ def turningEncrypt(text: str):
 
 
 def turningDecrypt(text: str):
+    """
+    :param text: encrypted text
+    :return: plain text
+    """
     mask = [
         [True, False, False, False],
         [False, False, False, True],
@@ -153,18 +171,12 @@ def turningDecrypt(text: str):
     return ret
 
 
-def vigenere(plaintext, key):
-    key_length = len(key)
-    key_as_int = [ord(i) for i in key]
-    plaintext_int = [ord(i) for i in plaintext]
-    ciphertext = ''
-    for i in range(len(plaintext_int)):
-        value = (plaintext_int[i] + key_as_int[i % key_length]) % 26
-        ciphertext += chr(value + 65)
-    return ciphertext
-
-
 def vigenereEncrypt(text: str, key: str):
+    """
+    :param text: plain text
+    :param key: your key
+    :return: encrypted text
+    """
     alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     tmp = ''
     for i in range(len(text)):
@@ -177,6 +189,11 @@ def vigenereEncrypt(text: str, key: str):
 
 
 def vigenereDecrypt(text: str, key: str):
+    """
+    :param text: encrypted text
+    :param key: your key
+    :return: plain text
+    """
     alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     tmp = ''
     for i in range(len(text)):
@@ -189,6 +206,11 @@ def vigenereDecrypt(text: str, key: str):
 
 
 def keyGenerate(k):
+    """
+    Simple function that can immediately generated you a key
+    :param k: key size
+    :return: key
+    """
     s = ''
     for i in range(k):
         s += random.choice(string.ascii_uppercase)
@@ -204,12 +226,13 @@ if __name__ == '__main__':
         [sg.Text('File 2:'), sg.InputText(), sg.FileBrowse(key="-IN2-"),
          sg.Checkbox('Vigenere cipher', key="vige")],
         [sg.Output(size=(88, 20), key="output")],
-        [sg.OK("OK"), sg.Submit("Encrypt"), sg.Submit("Decrypt"), sg.Exit("Bye")]
+        [sg.OK("OK"), sg.Submit("Encrypt"), sg.Submit("Decrypt"), sg.Exit("Bye"), sg.Text('                 Key:'),
+         sg.InputText(key="-KEY-")]
     ]
     window = sg.Window('Simple ciphers', layout)
     while True:  # The Event Loop
         event, values = window.read()
-        if event == sg.WIN_CLOSED or event == "Exit":
+        if event == sg.WIN_CLOSED or event == "Exit" or event == "Bye":
             break
         elif event == "OK":
             path1 = values["-IN1-"]
@@ -220,12 +243,62 @@ if __name__ == '__main__':
 
             file1.close()
         elif event == "Encrypt":
+            alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
+            window.find_element("output").Update('')
+            path2 = values["-IN2-"]
+            file2 = open(path2, 'w')
+            Linn = []
+            Lin = []
+            ss = ''
+            L = []
+            for line in Lines:
+                Linn.append(line.strip())
+
+            for line in Linn:
+                for i in line:
+                    i1 = i
+                    if alphabet.find(i.lower()) == -1:
+                        i1 = ''
+                    ss += i1
+                Lin.append(ss)
+                ss = ''
+            if not Lin:
+                print('[!] Nothing to encrypt!')
+            else:
+                if values["rail"]:
+                    for line in Lin:
+                        key = int(values["-KEY-"])
+                        if 1 < key <= len(line):
+                            L.append(railFenceEncrypt(line.upper(), key) + " ")
+                        else:
+                            print(f'[!] Bad key! (2..{len(line)})')
+
+                elif values["vige"]:
+                    for line in Lin:
+                        # key = keyGenerate(len(line))
+                        key = values["-KEY-"]
+                        L.append(vigenereEncrypt(line.upper(), key) + " ")
+
+                elif values["turn"]:
+                    for line in Lin:
+                        L.append(turningEncrypt(line.upper()) + " ")
+
+            file2.writelines(L)
+            file2.close()
+            file2 = open(path2, 'r')
+            Lines = file2.readlines()
+            for line in Lines:
+                print(line.strip())
+
+            file2.close()
+
+        elif event == "Decrypt":
             window.find_element("output").Update('')
             path2 = values["-IN2-"]
             file2 = open(path2, 'w')
             L = []
             Lin = []
-            Lines = [line.rstrip() for line in Lines]
+            Lines = [line.strip() for line in Lines]
             for line in Lines:
                 lll = line.split()
                 for ll in lll:
@@ -233,12 +306,18 @@ if __name__ == '__main__':
 
             if values["rail"]:
                 for line in Lin:
-                    L.append(railFenceEncrypt(line, 3) + " ")
+                    key = int(values["-KEY-"])
+                    L.append(railFenceDecrypt(line.upper(), key) + " ")
 
-            if values["vige"]:
+            elif values["vige"]:
                 for line in Lin:
-                    key = keyGenerate(len(line))
-                    L.append(vigenere(line, key) + " ")
+                    # key = keyGenerate(len(line))
+                    key = values["-KEY-"]
+                    L.append(vigenereDecrypt(line.upper(), key) + " ")
+
+            elif values["turn"]:
+                for line in Lin:
+                    L.append(turningDecrypt(line.upper()) + " ")
 
             file2.writelines(L)
             file2.close()
