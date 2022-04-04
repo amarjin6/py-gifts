@@ -63,7 +63,7 @@ def turningEncrypt(text: str):
     :param text: plain text
     :return: encrypted text
     """
-    alphabet = string.ascii_letters
+    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     mask = [
         [True, False, False, False],
         [False, False, False, True],
@@ -87,7 +87,7 @@ def turningEncrypt(text: str):
         for i in range(4):
             for j in range(4):
                 if not ret[i][j]:
-                    ret[i][j] = alphabet[int(random() * 1000) % (len(alphabet) - 1)]
+                    ret[i][j] = random.choice(string.ascii_uppercase)
     else:
         if len(text) % 16 == 0:
             ret = [[['' for _ in range(4)] for _ in range(4)] for _ in range(len(text) // 16)]
@@ -106,10 +106,11 @@ def turningEncrypt(text: str):
                     break
             if (i + 1) % 4 == 0:
                 mask = turn_90(mask)
+
         for i in range(4):
             for j in range(4):
                 if not ret[-1][i][j]:
-                    ret[-1][i][j] = alphabet[int(random.random() * 1000) % (len(alphabet) - 1)]
+                    ret[-1][i][j] = random.choice(string.ascii_uppercase)
     tmp = ''
     for i in range(len(ret)):
         for j in range(len(ret[i])):
@@ -254,33 +255,58 @@ if __name__ == '__main__':
             for line in Lines:
                 Linn.append(line.strip())
 
-            for line in Linn:
-                for i in line:
-                    i1 = i
-                    if alphabet.find(i.lower()) == -1:
-                        i1 = ''
-                    ss += i1
-                Lin.append(ss)
-                ss = ''
-            if not Lin:
-                print('[!] Nothing to encrypt!')
-            else:
-                if values["rail"]:
-                    for line in Lin:
+            if values["rail"]:
+                for line in Linn:
+                    for i in line:
+                        i1 = i
+                        if alphabet.find(i.lower()) == -1:
+                            i1 = ''
+                        ss += i1
+                    Lin.append(ss)
+                    ss = ''
+
+                for line in Lin:
+                    if len(line) < 1:
+                        print('[!] Nothing to encrypt!')
+                    else:
                         key = int(values["-KEY-"])
                         if 1 < key <= len(line):
                             L.append(railFenceEncrypt(line.upper(), key) + " ")
                         else:
-                            print(f'[!] Bad key! (2..{len(line)})')
+                            print(f'[!] Bad key! [2..{len(line)}]')
 
-                elif values["vige"]:
-                    for line in Lin:
-                        # key = keyGenerate(len(line))
+            elif values["vige"]:
+                for line in Linn:
+                    for i in line:
+                        i1 = i
+                        if alphabet.find(i.lower()) == -1:
+                            i1 = ''
+                        ss += i1
+                    Lin.append(ss)
+                    ss = ''
+
+                for line in Lin:
+                    # key = keyGenerate(len(line))
+                    if len(line) < 1:
+                        print('[!] Nothing to encrypt!')
+                    else:
                         key = values["-KEY-"]
                         L.append(vigenereEncrypt(line.upper(), key) + " ")
 
-                elif values["turn"]:
-                    for line in Lin:
+            elif values["turn"]:
+                for line in Linn:
+                    for i in line:
+                        i1 = i
+                        if string.ascii_lowercase.find(i.lower()) == -1:
+                            i1 = ''
+                        ss += i1
+                    Lin.append(ss)
+                    ss = ''
+
+                for line in Lin:
+                    if len(line) < 1:
+                        print('[!] Nothing to encrypt!')
+                    else:
                         L.append(turningEncrypt(line.upper()) + " ")
 
             file2.writelines(L)
@@ -293,21 +319,36 @@ if __name__ == '__main__':
             file2.close()
 
         elif event == "Decrypt":
+            alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
             window.find_element("output").Update('')
             path2 = values["-IN2-"]
             file2 = open(path2, 'w')
-            L = []
+            Linn = []
             Lin = []
-            Lines = [line.strip() for line in Lines]
+            ss = ''
+            L = []
             for line in Lines:
-                lll = line.split()
-                for ll in lll:
-                    Lin.append(ll)
+                Linn.append(line.strip())
 
             if values["rail"]:
+                for line in Linn:
+                    for i in line:
+                        i1 = i
+                        if alphabet.find(i.lower()) == -1:
+                            i1 = ''
+                        ss += i1
+                    Lin.append(ss)
+                    ss = ''
+
                 for line in Lin:
-                    key = int(values["-KEY-"])
-                    L.append(railFenceDecrypt(line.upper(), key) + " ")
+                    if len(line) < 1:
+                        print('[!] Nothing to encrypt!')
+                    else:
+                        key = int(values["-KEY-"])
+                        if 1 < key <= len(line):
+                            L.append(railFenceDecrypt(line.upper(), key) + " ")
+                        else:
+                            print(f'[!] Bad key! [2..{len(line)}]')
 
             elif values["vige"]:
                 for line in Lin:
@@ -315,9 +356,22 @@ if __name__ == '__main__':
                     key = values["-KEY-"]
                     L.append(vigenereDecrypt(line.upper(), key) + " ")
 
+
             elif values["turn"]:
+                for line in Linn:
+                    for i in line:
+                        i1 = i
+                        if string.ascii_lowercase.find(i.lower()) == -1:
+                            i1 = ''
+                        ss += i1
+                    Lin.append(ss)
+                    ss = ''
+
                 for line in Lin:
-                    L.append(turningDecrypt(line.upper()) + " ")
+                    if len(line) < 1:
+                        print('[!] Nothing to encrypt!')
+                    else:
+                        L.append(turningDecrypt(line.upper()) + " ")
 
             file2.writelines(L)
             file2.close()
