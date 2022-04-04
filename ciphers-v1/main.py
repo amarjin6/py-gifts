@@ -25,10 +25,12 @@ def railFenceEncrypt(plaintext: str, n: int) -> str:
 
 def railFenceDecrypt(text: str, key: int):
     """
-    Work the same as railFenceEncrypt
-    :param text: Encryption text
-    :param key: Key to decrypt
-    :return: Decrypted text
+    One iteration is 2 * key - 2 elements. Using that, it is possible to find out the len of substrings.
+    With knowledge of the length of every single substring it is possible to fill it in.
+    After that it is possible to get the initial string by taking symbols from substrings with encryption function.
+    :param: text: Cipher text
+    :param: key: Encryption key
+    :return: Plain text in Russian language
     """
     tmp = [0 for _ in range(key)]
     try:
@@ -52,7 +54,7 @@ def railFenceDecrypt(text: str, key: int):
 
 def turn_90(mask):
     """
-    :param mask: plain iterator
+    :param: mask: plain iterator
     :return: mask offset
     """
     return list(zip(*mask[::-1]))
@@ -60,8 +62,10 @@ def turn_90(mask):
 
 def turningEncrypt(text: str):
     """
-    :param text: plain text
-    :return: encrypted text
+    Different way of execution depending on the length of the text.
+    Once the number of the symbol is divided by 4, the mask is turned 90 degrees to the right.
+    :param: text: Plain text
+    :return: Cipher text
     """
     alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
     mask = [
@@ -122,8 +126,10 @@ def turningEncrypt(text: str):
 
 def turningDecrypt(text: str):
     """
-    :param text: encrypted text
-    :return: plain text
+    Different way of execution depending on the length of the text.
+    Given word is written in matrix(es). Then by masking every letter can be taken from the matrix(es).
+    :param: text: Cipher text
+    :return: Plain text (possibly with not important letters at the end)
     """
     mask = [
         [True, False, False, False],
@@ -174,9 +180,9 @@ def turningDecrypt(text: str):
 
 def vigenereEncrypt(text: str, key: str):
     """
-    :param text: plain text
-    :param key: your key
-    :return: encrypted text
+    :param: text: plain text
+    :param: key: your key
+    :return: cipher text
     """
     alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
     tmp = ''
@@ -191,8 +197,8 @@ def vigenereEncrypt(text: str, key: str):
 
 def vigenereDecrypt(text: str, key: str):
     """
-    :param text: encrypted text
-    :param key: your key
+    :param: text: cipher text
+    :param: key: your key
     :return: plain text
     """
     alphabet = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
