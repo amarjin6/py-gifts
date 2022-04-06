@@ -1,6 +1,73 @@
 from tkinter import *
 from turtle import RawTurtle, TurtleScreen
 from tkinter.ttk import *
+import line, rectangle, polygon, circle, ellipse
+
+
+class Figures:
+    def __init__(self, figure, i, t):
+        lst = []
+        for j in range(i):
+            print(f"Enter {j + 1} argument:")
+            lst.append(int(input()))
+
+        self.figure = figure(lst, t)
+
+    def draw(self):
+        self.figure.draw()
+
+
+# Create tk window
+root = Tk()  # the tk window
+root.title('Graphics editor')
+root.iconbitmap('icon.ico')
+root.geometry('800x650')
+root.configure(bg='grey')
+
+# Create turtle inside tk
+can = Canvas(root, width=800, height=500, bg="black")  # a canvas what will turn into turtle screen
+tsc = TurtleScreen(can)
+tur = RawTurtle(tsc)
+can.pack()
+
+# Create entryText
+entryText1 = StringVar()
+entryText2 = StringVar()
+
+
+def lines():
+    figure = Figures(line.Line, 1, tur)
+    tur.color('red')
+    figure.draw()
+    tur.setpos(0, 0)
+
+
+def rectangles():
+    figure = Figures(rectangle.Rectangle, 2, tur)
+    tur.color('green')
+    figure.draw()
+    tur.setpos(0, 0)
+
+
+def polygons():
+    figure = Figures(polygon.Polygon, 2, tur)
+    tur.color('blue')
+    figure.draw()
+    tur.setpos(0, 0)
+
+
+def circles():
+    figure = Figures(circle.Circle, 1, tur)
+    tur.color('purple')
+    figure.draw()
+    tur.setpos(0, 0)
+
+
+def ellipses():
+    figure = Figures(ellipse.Ellipse, 1, tur)
+    tur.color('orange')
+    figure.draw()
+    tur.setpos(0, 0)
 
 
 def main():
@@ -8,18 +75,6 @@ def main():
     Will make a tk window and a TurtleScreen with a turtle in it
     That will be Graphics Editor
     """
-    # Create tk window
-    root = Tk()  # the tk window
-    root.title('Graphics editor')
-    root.iconbitmap('icon.ico')
-    root.geometry('800x650')
-    root.configure(bg='grey')
-
-    # Create turtle inside tk
-    can = Canvas(root, width=800, height=500, bg="black")  # a canvas what will turn into turtle screen
-    tsc = TurtleScreen(can)
-    tur = RawTurtle(tsc)
-    can.pack()
 
     # Create style Object
     style = Style()
@@ -33,19 +88,17 @@ def main():
     style.map('TButton', foreground=[('active', '!disabled', 'purple')],
               background=[('active', 'blue')])
 
-    # Create buttons
-    entryText1 = StringVar()
-    entryText1.set("WIDTH")
-    entryText2 = StringVar()
-    entryText2.set("HEIGHT")
+    # Create entry
+    entryText1.set("Param 1")
+    entryText2.set("Param 2")
     width = Entry(root, font=('calibri', 24), width=14, textvariable=entryText1)
-
     height = Entry(root, font=('calibri', 24), width=14, textvariable=entryText2)
     width.pack()
     height.pack()
+    var = lambda: print(entryText1.get())
 
-    buttons = {'Line': print(width.get), 'Rectangle': 2, 'Circle': 3, 'Polygon': 4, 'Ellipse': 5}
-
+    # Create buttons
+    buttons = {'Line': lines, 'Rectangle': rectangles, 'Circle': circles, 'Polygon': polygons, 'Ellipse': ellipses}
     for button, comm in buttons.items():
         btn = Button(root, text=button,
                      command=comm)
