@@ -8,6 +8,6 @@ optional changes to existing code (type selection using a case/switch statement 
 The resulting program became the source of the original graphics editor.
 
 ## 🥽**Preview**🥽
-
+![1](https://user-images.githubusercontent.com/86531927/162283193-c7fbbd83-dd68-4765-b24b-dc851c254b92.png)
 
 ## Python, Turtle, TKinter
