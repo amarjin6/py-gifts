@@ -17,4 +17,6 @@
 
 * ### **Graphics editor** [**README**](https://github.com/amarjin6/py-gifts/tree/master/graphics%20editor)
 
+* ### **Steganography** [**README**](https://github.com/amarjin6/py-gifts/tree/master/steganography)
+
 ## Python OOP GUI CRYPTOGRAPHY
