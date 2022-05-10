@@ -19,4 +19,6 @@
 
 * ### **Steganography** [**README**](https://github.com/amarjin6/py-gifts/tree/master/steganography)
 
+* ### **e-mail Distribution** [**README**](https://github.com/amarjin6/py-gifts/tree/master/e-mail%20Distribution)
+
 ## Python OOP GUI CRYPTOGRAPHY
