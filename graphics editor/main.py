@@ -33,35 +33,35 @@ tur = CustomTurtle.CustomTurtle(root)
 
 
 def lines():
-    figure = Figures(line.Line, 1, tur.t)
+    figure = Figures(line.Line, 1, tur)
     tur.t.color('red')
     figure.draw()
     tur.t.setpos(0, 0)
 
 
 def rectangles():
-    figure = Figures(rectangle.Rectangle, 2, tur.t)
+    figure = Figures(rectangle.Rectangle, 2, tur)
     tur.t.color('green')
     figure.draw()
     tur.t.setpos(0, 0)
 
 
 def polygons():
-    figure = Figures(polygon.Polygon, 2, tur.t)
+    figure = Figures(polygon.Polygon, 2, tur)
     tur.t.color('blue')
     figure.draw()
     tur.t.setpos(0, 0)
 
 
 def circles():
-    figure = Figures(circle.Circle, 1, tur.t)
+    figure = Figures(circle.Circle, 1, tur)
     tur.t.color('purple')
     figure.draw()
     tur.t.setpos(0, 0)
 
 
 def ellipses():
-    figure = Figures(ellipse.Ellipse, 1, tur.t)
+    figure = Figures(ellipse.Ellipse, 1, tur)
     tur.t.color('orange')
     figure.draw()
     tur.t.setpos(0, 0)
