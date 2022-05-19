@@ -1,101 +1,56 @@
-import pygame
+from hierarchy import *
 
 
-class BaseSprite(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self._salary = None
-        self._name = None
-        self._age = None
-        self._who = 'BaseSprite'
-
-    # function to get value of _age
-    def get_age(self):
-        return self._age
-
-    # function to set value of _age
-    def set_age(self, a):
-        self._age = a
-
-    # function to delete _age attribute
-    def del_age(self):
-        del self._age
-
-    # function to get value of _name
-    def get_name(self):
-        return self._name
-
-    # function to set value of _name
-    def set_name(self, n):
-        self._name = n
-
-    # function to delete _name attribute
-    def del_name(self):
-        del self._name
-
-    # function to get value of _who
-    def get_who(self):
-        return self._who
-
-    # function to get value of _salary
-    def get_salary(self):
-        return self._salary
-
-    # function to set value of _salary
-    def set_salary(self, s):
-        self._salary = s
-
-    # function to delete _salary attribute
-    def del_salary(self):
-        del self._salary
-
-    age = property(get_age, set_age, del_age)
-
-    name = property(get_name, set_name, del_name)
-
-    who = property(get_who)
-
-    salary = property(get_salary, set_salary, del_salary)
+def serialize(lst: list):
+    with open('tmp.txt', 'w') as f:
+        for obj in lst:
+            character = vars(obj)
+            cls = character.get('_who')
+            f.writelines('{' + '\'' + str(cls) + '\'' + ': ' + str(character) + '}' + '\n')
 
 
-class Character(BaseSprite):
-    def __init__(self):
-        super().__init__()
-        self._who = 'Character'
+def deserialize():
+    lst = []
 
+    with open('tmp.txt', 'r') as f:
+        Lines = f.readlines()
 
-class Actor(Character):
-    def __init__(self):
-        super().__init__()
-        self._who = 'Actor'
+    classes = []
+    for line in Lines:
+        classes.append(line.strip())
 
+    objects = {'BaseSprite': BaseSprite(), 'Character': Character(), 'Actor': Actor(),
+               'Protagonist': Protagonist(), 'Antagonist': Antagonist(), 'Deuteragonist': Deuteragonist(),
+               'TertiaryCharacter': TertiaryCharacter()}
 
-class Protagonist(Actor):
-    def __init__(self):
-        super().__init__()
-        self._who = 'Protagonist'
+    for cls in classes:
+        s = str(cls)
+        for item in objects:
+            if item in s:
+                ss = s[1:]
+                pos1 = ss.find('{')
+                ss = ss[pos1:]
+                ss = ss.replace('\'', '')
+                ss = ss.replace('{', '')
+                ss = ss.replace('}', '')
+                convertedDict = dict((x.strip(), y.strip())
+                                     for x, y in (element.split(':')
+                                                  for element in ss.split(', ')))
 
+                objects[item].salary = convertedDict['_salary']
+                objects[item].name = convertedDict['_name']
+                objects[item].age = convertedDict['_age']
 
-class Antagonist(Actor):
-    def __init__(self):
-        super().__init__()
-        self._who = 'Antagonist'
+            lst.append(objects[item])
 
-
-class Deuteragonist(Protagonist):
-    def __init__(self):
-        super().__init__()
-        self._who = 'Deuteragonist'
-
-
-class TertiaryCharacter(Deuteragonist):
-    def __init__(self):
-        super().__init__()
-        self._who = 'TertiaryCharacter'
+    return lst
 
 
 if __name__ == '__main__':
     lst = []
+    objects = {1: BaseSprite(), 2: Character(), 3: Actor(),
+               4: Protagonist(), 5: Antagonist(), 6: Deuteragonist(),
+               7: TertiaryCharacter()}
     print('[1] - Add [2] - Load [3] - Delete [4] - Edit [5] - Save [6] - Exit')
     x = int(input())
     while x != 6:
@@ -103,38 +58,12 @@ if __name__ == '__main__':
             print(
                 '[1] - BaseSprite [2] - Character [3] - Actor [4] - Protagonist [5] - Antagonist [6] - Deuteragonist [7] - TertiaryCharacter')
             per = int(input())
-
-            if per == 1:
-                person = BaseSprite()
-                lst.append(person)
-
-            elif per == 2:
-                person = Character()
-                lst.append(person)
-
-            elif per == 3:
-                person = Actor()
-                lst.append(person)
-
-            elif per == 4:
-                person = Protagonist()
-                lst.append(person)
-
-            elif per == 5:
-                person = Antagonist()
-                lst.append(person)
-
-            elif per == 6:
-                person = Deuteragonist()
-                lst.append(person)
-
-            elif per == 7:
-                person = TertiaryCharacter()
-                lst.append(person)
+            for item in objects:
+                if item == per:
+                    lst.append(objects[item])
 
         elif x == 2:
-            with open('tmp.txt', 'r') as f:
-                print(f.readlines())
+            lst = deserialize()
 
         elif x == 3:
             print('Enter object number:')
@@ -166,12 +95,12 @@ if __name__ == '__main__':
                     lst[obj].salary = salary
 
             elif x == 5:
-                with open('tmp.txt', 'w') as f:
-                    for obj in lst:
-                        f.writelines(obj.who, obj.name, obj.age, obj.salary)
+                serialize(lst)
 
         print('[1] - Add [2] - Load [3] - Delete [4] - Edit [5] - Save [6] - Exit')
         print(lst)
         x = int(input())
+
+    serialize(lst)
 
     exit(0)

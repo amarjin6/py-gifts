@@ -1,0 +1,3 @@
+{'BaseSprite': {'_salary': 1000, '_name': Alex, '_age': 18, '_who': 'BaseSprite'}}
+{'Character': {'_salary': 100, '_name': Bob, '_age': 20, '_who': 'Character'}}
+{'Actor': {'_salary': 10, '_name': John, '_age': 22, '_who': 'Character'}}
