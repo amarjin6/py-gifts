@@ -19,29 +19,27 @@ def deserialize():
     for line in Lines:
         classes.append(line.strip())
 
-    objects = {'BaseSprite': BaseSprite(), 'Character': Character(), 'Actor': Actor(),
-               'Protagonist': Protagonist(), 'Antagonist': Antagonist(), 'Deuteragonist': Deuteragonist(),
-               'TertiaryCharacter': TertiaryCharacter()}
-
     for cls in classes:
         s = str(cls)
-        for item in objects:
-            if item in s:
-                ss = s[1:]
-                pos1 = ss.find('{')
-                ss = ss[pos1:]
-                ss = ss.replace('\'', '')
-                ss = ss.replace('{', '')
-                ss = ss.replace('}', '')
-                convertedDict = dict((x.strip(), y.strip())
-                                     for x, y in (element.split(':')
-                                                  for element in ss.split(', ')))
+        ss = s[2:]
+        pos = ss.find(':')
+        who = ss[:pos]
+        who = who.replace('\'', '')
+        newClass = type(who, (), {})
+        pos1 = ss.find('{')
+        ss = ss[pos1:]
+        ss = ss.replace('\'', '')
+        ss = ss.replace('{', '')
+        ss = ss.replace('}', '')
+        convertedDict = dict((x.strip(), y.strip())
+                             for x, y in (element.split(':')
+                                          for element in ss.split(', ')))
 
-                objects[item].salary = convertedDict['_salary']
-                objects[item].name = convertedDict['_name']
-                objects[item].age = convertedDict['_age']
+        newClass.salary = convertedDict['_salary']
+        newClass.name = convertedDict['_name']
+        newClass.age = convertedDict['_age']
+        lst.append(newClass)
 
-            lst.append(objects[item])
 
     return lst
 
