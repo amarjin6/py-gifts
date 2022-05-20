@@ -21,4 +21,8 @@
 
 * ### **e-mail Distribution** [**README**](https://github.com/amarjin6/py-gifts/tree/master/e-mail%20Distribution)
 
-## Python OOP GUI CRYPTOGRAPHY
+* ### **Object Serialization** [**README**](https://github.com/amarjin6/py-gifts/tree/master/object%20Serialization)
+
+* ### **DI Container** [**README**](https://github.com/amarjin6/py-gifts/tree/master/DI%20container)
+
+## Python Fundamentals
