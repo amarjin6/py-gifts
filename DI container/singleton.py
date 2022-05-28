@@ -9,3 +9,8 @@ class Singleton(type):
 
 class Logger(object):
     __metaclass__ = Singleton
+
+
+class Transient(type):
+    def __init__(self):
+        ...
