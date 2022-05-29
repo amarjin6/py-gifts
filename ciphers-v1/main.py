@@ -271,15 +271,30 @@ if __name__ == '__main__':
                     Lin.append(ss)
                     ss = ''
 
+                word = ''
+                for i in Lin:
+                    word += i
+                del Lin
+                Lin = []
+                Lin.append(word)
                 for line in Lin:
                     if len(line) < 1:
                         print('[!] Nothing to encrypt!')
                     else:
-                        key = int(values["-KEY-"])
-                        if 1 < key <= len(line):
-                            L.append(railFenceEncrypt(line.upper(), key) + " ")
+                        sKey = str(values["-KEY-"])
+                        if sKey:
+                            iKey = ''.join(filter(str.isdigit, sKey))
+                            if iKey:
+                                key = int(iKey)
+                                if 1 < key <= len(line):
+                                    L.append(railFenceEncrypt(line.upper(), key) + " ")
+                                else:
+                                    print(f'[!] Bad key! [2..{len(line)}]')
+
+                            else:
+                                print('[!] Bad key!')
                         else:
-                            print(f'[!] Bad key! [2..{len(line)}]')
+                            print('[!] Bad key!')
 
             elif values["vige"]:
                 for line in Linn:
@@ -292,7 +307,6 @@ if __name__ == '__main__':
                     ss = ''
 
                 for line in Lin:
-                    # key = keyGenerate(len(line))
                     if len(line) < 1:
                         print('[!] Nothing to encrypt!')
                     else:
