@@ -339,6 +339,12 @@ if __name__ == '__main__':
                     Lin.append(ss)
                     ss = ''
 
+                word = ''
+                for i in Lin:
+                    word += i
+                del Lin
+                Lin = []
+                Lin.append(word)
                 for line in Lin:
                     if len(line) < 1:
                         print('[!] Nothing to encrypt!')
