@@ -20,5 +20,6 @@ or a test project with unit tests covering the functionality of the library)
 
 ## 🥽**Preview**🥽
 
+![img](https://user-images.githubusercontent.com/86531927/171899969-c2d95d7b-2f6d-4c2c-a561-c045ec3869db.png)
 
 ## Python, OOP, DI Container
