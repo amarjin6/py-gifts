@@ -1,0 +1,7 @@
+# Optional requirements for e-mail Distribution
+pip 22.0.4
+setuptools 61.3.0
+wheel 0.37.1
+stegano 0.10.2
+wrapt 1.14.1
+colorama 0.4.4

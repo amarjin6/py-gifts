@@ -1,0 +1,8 @@
+# Optional requirements for DI container
+pip 22.0.4
+setuptools 61.3.0
+wheel 0.37.1
+python-doten 0.20.0
+requests 2.27.1
+mock 4.0.3
+dependency-injector 4.39.1
